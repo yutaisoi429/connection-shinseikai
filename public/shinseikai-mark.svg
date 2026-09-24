@@ -11,5 +11,5 @@
   <path fill="url(#gold)" d="M110 4 214 80l-40 125H46L6 80z"/>
   <path fill="url(#blue)" d="M110 11 206 82l-37 115H51L14 82z"/>
   <path fill="none" stroke="url(#gold)" stroke-width="7" d="m110 31 76 56-29 89H63L34 87z"/>
-  <text x="110" y="137" fill="#fff" text-anchor="middle" font-family="serif" font-size="94" font-weight="700" font-style="italic">誓</text>
+  <text x="110" y="132" fill="#fff" text-anchor="middle" font-family="serif" font-size="78" font-weight="700" font-style="italic">誓</text>
 </svg>
