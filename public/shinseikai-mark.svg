@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 210" role="img" aria-labelledby="title">
+  <title id="title">真誓会シンボル</title>
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#9b641d"/><stop offset=".35" stop-color="#f4d66e"/><stop offset=".62" stop-color="#d99e39"/><stop offset="1" stop-color="#7e4a14"/>
+    </linearGradient>
+    <linearGradient id="blue" x1=".25" y1="0" x2=".7" y2="1">
+      <stop stop-color="#138dca"/><stop offset=".5" stop-color="#0b4c85"/><stop offset="1" stop-color="#06152f"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#gold)" d="M110 4 214 80l-40 125H46L6 80z"/>
+  <path fill="url(#blue)" d="M110 11 206 82l-37 115H51L14 82z"/>
+  <path fill="none" stroke="url(#gold)" stroke-width="7" d="m110 31 76 56-29 89H63L34 87z"/>
+  <text x="110" y="137" fill="#fff" text-anchor="middle" font-family="serif" font-size="94" font-weight="700" font-style="italic">誓</text>
+</svg>
