@@ -43,6 +43,7 @@
 - `project_members(project_id, user_id, role)`
 - `tasks(id, project_id, title, description, status, due_at, last_activity_at, created_by, completed_by, completed_at, created_at, updated_at)`
 - `task_assignees(task_id, user_id, assigned_by, assigned_at)`
+- `task_confirmations(task_id, user_id, confirmed_at)`
 - `task_comments(id, task_id, author_id, body, created_at, updated_at, deleted_at)`
 - `comment_mentions(comment_id, user_id)`
 
@@ -75,6 +76,7 @@
 - `GET /v1/tasks?scope=mine|stale|open|done&from=&to=&sort=&q=`
 - `PATCH /v1/tasks/:taskId`
 - `PUT /v1/tasks/:taskId/assignees` — 担当者一覧を置換
+- `POST /v1/tasks/:taskId/confirmations` — ログイン中の担当者がタスクを確認済みにする
 - `POST /v1/tasks/:taskId/comments` — 本文と`mentionedUserIds`を保存
 - `GET /v1/tasks/:taskId/comments`
 
@@ -98,8 +100,9 @@
 2. ワーカーが対象ユーザーと`notification_preferences`を解決
 3. システム内通知を`notifications`へ作成
 4. メール対象ならキューへ投入し、送信結果を`notification_deliveries`へ保存
-5. 定期ジョブが、未完了かつ`last_activity_at <= now() - 72 hours`のタスクを検出
-6. 同一タスク・同一対象への72時間通知は一度だけ発火し、新しいコメントや状態変更で次回判定をリセット
+5. 定期ジョブが、作成から72時間を過ぎても確認記録がない担当者を検出して通知
+6. 期限の3日前になった未完了タスクを検出して担当者へ通知
+7. 同一タスク・同一対象・同一通知種別は一度だけ発火するよう重複キーで制御
 
 ## 6. セキュリティ・運用
 
