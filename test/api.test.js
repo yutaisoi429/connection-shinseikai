@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { createApi } from '../server/app.js';
+import { JsonStore } from '../server/store.js';
+
+async function fixture(t) { const dir=await mkdtemp(join(tmpdir(),'shinseikai-')); const app=createApi({store:new JsonStore(join(dir,'db.json'))}); await new Promise(resolve=>app.listen(0,'127.0.0.1',resolve)); t.after(async()=>{await new Promise(resolve=>app.close(resolve));await rm(dir,{recursive:true,force:true})}); return `http://127.0.0.1:${app.address().port}`; }
+
+test('creates one task with multiple assignees',async t=>{const base=await fixture(t); const project=await fetch(`${base}/v1/projects`,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name:'総会'})}).then(r=>r.json()); const response=await fetch(`${base}/v1/projects/${project.id}/tasks`,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({title:'資料確認',assigneeIds:['u1','u2','u2']})}); assert.equal(response.status,201); const task=await response.json(); assert.deepEqual(task.assigneeIds,['u1','u2']); const list=await fetch(`${base}/v1/projects/${project.id}/tasks`).then(r=>r.json()); assert.equal(list.items.length,1); });
+test('creates mention notifications and persists preferences',async t=>{const base=await fixture(t); const project=await fetch(`${base}/v1/projects`,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name:'交流会'})}).then(r=>r.json()); const task=await fetch(`${base}/v1/projects/${project.id}/tasks`,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({title:'確認',assigneeIds:['u1']})}).then(r=>r.json()); const comment=await fetch(`${base}/v1/tasks/${task.id}/comments`,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({body:'確認お願いします',authorId:'u1',mentionedUserIds:['u2']})}); assert.equal(comment.status,201); const notices=await fetch(`${base}/v1/notifications?userId=u2`).then(r=>r.json()); assert.equal(notices.items[0].eventType,'comment.mentioned'); const prefs=await fetch(`${base}/v1/users/u2/notification-preferences`,{method:'PUT',headers:{'content-type':'application/json'},body:JSON.stringify({preferences:[{channel:'email',eventType:'comment.mentioned',enabled:true}]})}); assert.equal(prefs.status,200); });
