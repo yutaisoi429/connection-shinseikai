@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#153f34" />
+    <title>真誓会 Connect</title>
+  </head>
+  <body>
+    <div id="root">
+      <div id="boot-status" role="status">
+        <strong>真誓会 Connect</strong>
+        <span>画面を読み込んでいます…</span>
+        <small>この表示が消えない場合は、GitHub Pages の公開元を「GitHub Actions」に設定してください。</small>
+      </div>
+    </div>
+    <style>
+      #boot-status{min-height:100vh;display:grid;place-content:center;gap:10px;text-align:center;font-family:system-ui,sans-serif;color:#173f35;background:#f5f6f2}
+      #boot-status strong{font-family:serif;font-size:24px;letter-spacing:.12em}#boot-status span{font-size:13px}#boot-status small{max-width:480px;margin-top:12px;color:#7a8681}
+    </style>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
