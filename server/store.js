@@ -1,7 +1,7 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
-const EMPTY = { organizations: [], members: [], projects: [], tasks: [], comments: [], files: [], notifications: [], notificationPreferences: [], sessions: [], invitations: [] };
+const EMPTY = { organizations: [], members: [], projects: [], tasks: [], comments: [], files: [], notifications: [], notificationPreferences: [] };
 
 export class JsonStore {
   constructor(path) { this.path = path; this.queue = Promise.resolve(); }

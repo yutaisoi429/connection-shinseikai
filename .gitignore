@@ -3,6 +3,3 @@ dist/
 *.log
 .DS_Store
 data/*.json
-data/mailbox/
-data/uploads/
-.env
